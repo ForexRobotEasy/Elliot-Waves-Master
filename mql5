@@ -1,0 +1,87 @@
+mql5
+//+------------------------------------------------------------------+
+//|                        Elliot Waves Master                       |
+//|            Developer: Forex Robot Easy Team (forexroboteasy.com) |
+//+------------------------------------------------------------------+
+
+#property copyright 'Forex Robot Easy Team'
+#property link      'forexroboteasy.com'
+
+//--- Input parameters
+input int Timeframe1 = PERIOD_M15; // First timeframe
+input int Timeframe2 = PERIOD_H1;  // Second timeframe
+input int Timeframe3 = PERIOD_H4;  // Third timeframe
+
+input color BullishColor = clrGreen;  // Color for bullish trend
+input color BearishColor = clrRed;    // Color for bearish trend
+
+input int NumCandles1 = 100;  // Number of candles for timeframe 1
+input int NumCandles2 = 200;  // Number of candles for timeframe 2
+input int NumCandles3 = 300;  // Number of candles for timeframe 3
+
+//+------------------------------------------------------------------+
+//|                     Elliot Waves Master                          |
+//+------------------------------------------------------------------+
+void OnStart()
+{
+    // Retrieve and display data from the selected timeframes
+    double[] prices1;
+    double[] prices2;
+    double[] prices3;
+    
+    GetPrices(Timeframe1, NumCandles1, prices1);
+    GetPrices(Timeframe2, NumCandles2, prices2);
+    GetPrices(Timeframe3, NumCandles3, prices3);
+    
+    // Analyze Elliot Waves patterns
+    bool wave1 = IsElliotWave(prices1);
+    bool wave2 = IsElliotWave(prices2);
+    bool wave3 = IsElliotWave(prices3);
+    
+    // Generate trading signals based on analysis
+    if (wave1 && wave2 && wave3)
+    {
+        // Place buy order
+        TradeSignal('BUY');
+    }
+    else if (!wave1 && !wave2 && !wave3)
+    {
+        // Place sell order
+        TradeSignal('SELL');
+    }
+    else
+    {
+        // Do nothing
+        Print('No trading signal');
+    }
+}
+
+//+------------------------------------------------------------------+
+//|                     Helper Functions                             |
+//+------------------------------------------------------------------+
+void GetPrices(int timeframe, int numCandles, double& prices[])
+{
+    ArrayResize(prices, numCandles);
+    
+    for (int i = 0; i < numCandles; i++)
+    {
+        prices[i] = iClose(NULL, timeframe, i);
+    }
+}
+
+bool IsElliotWave(double& prices[])
+{
+    // Implement Elliot Waves pattern identification algorithm
+    
+    // Return true if pattern is detected, false otherwise
+    return true;
+}
+
+void TradeSignal(string signal)
+{
+    // Place trade order based on the signal
+    // ...
+    // Additional code for placing trade order
+    // ...
+    Print('Trade signal: ' + signal);
+}
